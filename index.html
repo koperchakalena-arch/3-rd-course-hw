@@ -72,8 +72,13 @@
   }
 
   addButton.addEventListener('click', function () {
-    const name = nameInput.value;
-    const comment = commentInput.value;
+    const name = nameInput.value.trim();
+    const comment = commentInput.value.trim();
+
+    if (name === '' || comment === '') {
+      alert('Пожалуйста, заполните оба поля!');
+      return;
+    }
 
     const newComment = `
     <li class="comment">
