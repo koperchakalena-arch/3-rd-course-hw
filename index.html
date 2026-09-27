@@ -88,6 +88,12 @@
     return `${day}.${month}.${year} ${hours}:${minutes}`;
   }
 
+  function escapeHTML(text) {
+    return text
+      .replaceAll('<', '&lt;')
+      .replaceAll('>', '&gt;');
+  }
+
   function renderComments() {
     let html = '';
 
@@ -100,14 +106,14 @@
       }
 
       html += `
-      <li class="comment">
+      <li class="comment" data-index="${i}">
         <div class="comment-header">
-          <div>${comment.name}</div>
+          <div>${escapeHTML(comment.name)}</div>
           <div>${comment.date}</div>
         </div>
         <div class="comment-body">
           <div class="comment-text">
-            ${comment.text}
+            ${escapeHTML(comment.text)}
           </div>
         </div>
         <div class="comment-footer">
@@ -124,7 +130,9 @@
 
     const likeButtons = document.querySelectorAll('.like-button');
     for (let i = 0; i < likeButtons.length; i++) {
-      likeButtons[i].addEventListener('click', function () {
+      likeButtons[i].addEventListener('click', function (event) {
+        event.stopPropagation();
+
         const index = likeButtons[i].dataset.index;
 
         if (comments[index].isLiked) {
@@ -136,6 +144,16 @@
         }
 
         renderComments();
+      });
+    }
+
+    const commentElements = document.querySelectorAll('.comment');
+    for (let i = 0; i < commentElements.length; i++) {
+      commentElements[i].addEventListener('click', function () {
+        const index = commentElements[i].dataset.index;
+        nameInput.value = comments[index].name;
+        commentInput.value = '> ' + comments[index].text + '\n' + comments[index].name + ', ';
+        commentInput.focus();
       });
     }
   }
