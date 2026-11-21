@@ -7,26 +7,26 @@ const commentInput = document.querySelector('.add-form-text');
 const addButton = document.querySelector('.add-form-button');
 
 export function initAddComment() {
-    addButton.addEventListener('click', function () {
-        const name = nameInput.value.trim();
-        const text = commentInput.value.trim();
+  addButton.addEventListener('click', function () {
+    const name = nameInput.value.trim();
+    const text = commentInput.value.trim();
 
-        if (name === '' || text === '') {
-            alert('Заполните оба поля!');
-            return;
-        }
+    if (name === '' || text === '') {
+      alert('Заполните оба поля!');
+      return;
+    }
 
-        comments.push({
-            name: name,
-            date: getDate(),
-            text: text,
-            likes: 0,
-            isLiked: false,
-        });
-
-        nameInput.value = '';
-        commentInput.value = '';
-
-        renderComments();
+    comments.push({
+      name: name,
+      date: getDate(),
+      text: text,
+      likes: 0,
+      isLiked: false,
     });
+
+    nameInput.value = '';
+    commentInput.value = '';
+
+    renderComments();
+  });
 }
